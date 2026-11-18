@@ -437,3 +437,108 @@ button.fnode:hover { border-color: var(--g); box-shadow: 0 2px 10px #1d925b1f; }
 .hero .btn.ghost-w { padding-left: 8px; padding-right: 8px; }
 .hero .btn:disabled { opacity: .55; }
 .hero .when + div { font-size: 18px; margin-top: 2px; }
+
+/* ======================================================================
+   Device toggle + phone frame (mobile-web preview)
+   ====================================================================== */
+.devseg { display: flex; gap: 2px; background: #1a1f1d; border: 1px solid #2a312e; padding: 3px; border-radius: 10px; flex-shrink: 0; }
+.devseg button { display: inline-flex; align-items: center; gap: 6px; background: none; border: 0; color: #a9b5af; padding: 6px 10px; border-radius: 7px; font-size: 13px; font-weight: 600; }
+.devseg button:hover { color: #fff; }
+.devseg button.on { background: #fff; color: #0c0f0e; }
+.main.phone-stage { display: flex; align-items: center; justify-content: center; background: #e9ecea; overflow: auto; padding: 24px; }
+.phone-wrap { display: flex; flex-direction: column; align-items: center; gap: 10px; height: 100%; max-height: 900px; }
+.phone { width: 410px; flex: 1; max-height: 864px; min-height: 0; background: #0c0f0e; border-radius: 48px; padding: 10px; display: flex; }
+.mframe { width: 390px; height: 100%; border: 0; border-radius: 38px; background: #fff; display: block; }
+.phone-cap { font-size: 12px; font-weight: 600; color: var(--m2); }
+
+/* mobile-only elements are hidden on desktop */
+.m-burger, .mstepper, .mnav { display: none; }
+
+/* ======================================================================
+   Mobile web (≤ 640px) — matches the SSB mobile application pattern
+   ====================================================================== */
+@media (max-width: 640px) {
+  :root { --pad: 16px; }
+  body { font-size: 14px; }
+
+  /* header: logo + hamburger */
+  .appnav { height: 60px; grid-template-columns: auto minmax(0, 1fr) 0; }
+  .appnav > .logo { padding-left: 16px; }
+  .appnav > .menu { padding: 0 16px; gap: 8px; }
+  .nav-btn, .nav-sep, .nav-profile { display: none !important; }
+  .appnav .menu > img { display: none; }
+  .m-burger { display: grid; place-items: center; width: 44px; height: 44px; border: 1px solid var(--line); border-radius: 8px; background: #fff; color: var(--ink); }
+
+  /* horizontal numbered step strip */
+  .mstepper { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; background: var(--soft); border-bottom: 1px solid var(--line); padding: 10px 16px; flex-shrink: 0; }
+  .mstepper::-webkit-scrollbar { display: none; }
+  .ms-step { display: flex; flex-direction: column; align-items: center; gap: 2px; min-width: 76px; padding: 2px 4px 6px; border-bottom: 2px solid transparent; flex-shrink: 0; }
+  .ms-n { width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center; font-size: 11px; font-weight: 700; color: var(--m2); }
+  .ms-t { font-size: 12px; color: var(--m2); white-space: nowrap; }
+  .ms-step.done .ms-n { background: var(--tint); color: var(--g); }
+  .ms-step.on { border-color: var(--g); }
+  .ms-step.on .ms-n { background: var(--g); color: #fff; }
+  .ms-step.on .ms-t { color: var(--gd); font-weight: 600; }
+
+  /* horizontal section tabs for interviewer / CRM */
+  .mnav { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding: 10px 16px; border-bottom: 1px solid var(--line); background: var(--soft); flex-shrink: 0; }
+  .mnav::-webkit-scrollbar { display: none; }
+  .mnav button { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; background: #fff; border: 1px solid var(--line); border-radius: 999px; padding: 7px 12px; font-size: 13px; font-weight: 600; color: #3b423e; }
+  .mnav button svg { color: #8a918d; }
+  .mnav button.on { border-color: var(--g); color: var(--gd); background: var(--tint); }
+  .mnav button.on svg { color: var(--g); }
+  .mnav .cnt { font-size: 11px; background: var(--g); color: #fff; border-radius: 999px; padding: 0 6px; }
+  .appnav .menu select.search { width: 150px !important; font-size: 12px; }
+
+  /* content */
+  .side { display: none; }
+  .content { padding: 20px 16px 0; gap: 16px; }
+  .intro { flex-direction: column; gap: 10px; }
+  .intro h1 { font-size: 24px; }
+  .intro p { font-size: 14px; }
+  .card { padding: 18px; gap: 14px; }
+  .card h3 { font-size: 17px; }
+  .tabs { overflow-x: auto; }
+  .grid2, .grid3, .grid4, .split, .prep-row, .illus-card { grid-template-columns: minmax(0, 1fr) !important; }
+  .illus-card .illus { width: 140px; height: 140px; justify-self: center; order: -1; }
+  .row { gap: 8px; }
+  .kv > div { font-size: 13px; }
+  .emaillist { grid-template-columns: 1fr; }
+  .emaillist .lst { max-height: 220px; border-right: 0; border-bottom: 1px solid var(--line); }
+  .slots { grid-template-columns: 1fr !important; }
+  .tbl { display: block; overflow-x: auto; white-space: nowrap; }
+
+  /* interview hero */
+  .hero { padding: 20px; gap: 18px; border-radius: 10px; }
+  .hero-ic { width: 48px; height: 48px; }
+  .hero .when { font-size: 20px; }
+  .hero .when + div { font-size: 14px; }
+  .hero .big { font-size: 34px; }
+  .hero .row { flex-direction: column; align-items: stretch; }
+  .hero .row .btn { justify-content: center; }
+  .hero .row:first-child { flex-direction: row; align-items: center; }
+
+  /* sticky CTA: full width, stacked */
+  .content > .cta-bar { width: calc(100% + 32px); margin: auto -16px 0; padding: 12px 16px calc(12px + env(safe-area-inset-bottom)); flex-direction: column; align-items: stretch; gap: 10px; }
+  .cta-act { width: 100%; }
+  .cta-act .btn { flex: 1; justify-content: center; padding: 12px; }
+  .cta-act .tag { display: none; }
+
+  /* menu sheet */
+  .m-sheet-scrim { position: fixed; inset: 0; background: #0f1f1766; z-index: 80; display: flex; align-items: flex-end; }
+  .m-sheet { background: #fff; width: 100%; border-radius: 16px 16px 0 0; padding: 20px 16px 24px; display: flex; flex-direction: column; gap: 14px; }
+  .m-close { width: 36px; height: 36px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 8px; background: #fff; }
+  .m-item { display: flex; align-items: center; gap: 10px; width: 100%; text-align: left; background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; font-size: 14px; font-weight: 600; color: #3b423e; }
+  .m-item svg { color: var(--g); }
+  .m-foot { font-size: 12px; color: #8a918d; text-align: center; padding-top: 4px; }
+
+  /* overview / gallery in the phone */
+  .ov, .gallery { padding: 20px 16px 40px; }
+  .ov h1, .gallery-head h1 { font-size: 24px; }
+  .flow { padding: 18px; }
+  .fsides { grid-template-columns: 1fr; }
+  .searchbox { width: 100%; }
+  .gallery-head .row { flex-direction: column; align-items: stretch; width: 100%; }
+  .gallery-head .seg { overflow-x: auto; }
+  .toast { bottom: 96px; max-width: calc(100% - 32px); }
+}

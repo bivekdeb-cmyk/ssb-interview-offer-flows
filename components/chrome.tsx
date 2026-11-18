@@ -8,7 +8,7 @@ import {
   COHORT, CohortLead, currentRound, fmt, HOUR, MIN, PAYOUT_PER_INTERVIEW, State, completedRounds, MAX_ROUNDS,
 } from "@/lib/model";
 import { Modal } from "./ui";
-import { ArrowCounterClockwise, Buildings, CaretDown, CaretLeft, CaretRight, Clock, FlowArrow, Microphone, SquaresFour, UserCircle, X } from "@phosphor-icons/react";
+import { ArrowCounterClockwise, Buildings, Desktop, DeviceMobile, CaretDown, CaretLeft, CaretRight, Clock, FlowArrow, Microphone, SquaresFour, UserCircle, X } from "@phosphor-icons/react";
 
 export function useGo() {
   const { load } = useStore();
@@ -23,7 +23,7 @@ export function useGo() {
 
 export function TopNav() {
   const path = usePathname();
-  const { s, update, reset, scenario, panel, setPanel } = useStore();
+  const { s, reset, jump, scenario, panel, setPanel, device, setDevice } = useStore();
   const go = useGo();
   const [clock, setClock] = useState(false);
   const links: [string, string, React.ReactNode][] = [
@@ -40,7 +40,7 @@ export function TopNav() {
     go(SCENARIOS[n].id);
   };
   const r = currentRound(s);
-  const jump = (fn: (ms: number) => number) => { update((d) => (d.now = fn(d.now))); setClock(false); };
+  const tj = (m: Parameters<typeof jump>[0]) => { jump(m); setClock(false); };
   return (
     <header className="topnav">
       <div className="brand">
@@ -68,6 +68,14 @@ export function TopNav() {
         </div>
         <button className="arr" onClick={() => step(1)} aria-label="Next screen"><CaretRight size={14} weight="bold" /></button>
       </div>
+      <div className="devseg" role="group" aria-label="Preview device">
+        <button className={device === "web" ? "on" : ""} onClick={() => setDevice("web")} aria-pressed={device === "web"} title="Desktop web">
+          <Desktop size={16} /> <span className="lbl">Web</span>
+        </button>
+        <button className={device === "mweb" ? "on" : ""} onClick={() => setDevice("mweb")} aria-pressed={device === "mweb"} title="Mobile web">
+          <DeviceMobile size={16} /> <span className="lbl">Mobile</span>
+        </button>
+      </div>
       <div style={{ position: "relative" }}>
         <button className={`tool${clock ? " on" : ""}`} onClick={() => setClock(!clock)} aria-expanded={clock}>
           <Clock size={16} /> <span className="lbl">{fmt.dt(s.now)}</span> <CaretDown size={12} />
@@ -75,12 +83,12 @@ export function TopNav() {
         {clock && (
           <div className="pop" onMouseLeave={() => setClock(false)}>
             <div className="hd">Simulated time</div>
-            <button onClick={() => jump((n) => n + HOUR)}>+1 hour</button>
-            <button onClick={() => jump((n) => n + 24 * HOUR)}>+1 day</button>
-            {r && <button onClick={() => jump(() => r.start - 20 * HOUR)}>20 h before interview (reschedule locks)</button>}
-            {r && <button onClick={() => jump(() => r.start - 5 * MIN)}>5 min before interview (join opens)</button>}
-            {r && <button onClick={() => jump(() => r.start + 50 * MIN)}>After the interview</button>}
-            {s.offer.status === "live" && s.offer.deadline && <button onClick={() => jump(() => (s.offer.deadline ?? 0) + MIN)}>Past the offer deadline</button>}
+            <button onClick={() => tj("+1h")}>+1 hour</button>
+            <button onClick={() => tj("+1d")}>+1 day</button>
+            {r && <button onClick={() => tj("before20h")}>20 h before interview (reschedule locks)</button>}
+            {r && <button onClick={() => tj("before5m")}>5 min before interview (join opens)</button>}
+            {r && <button onClick={() => tj("after")}>After the interview</button>}
+            {s.offer.status === "live" && s.offer.deadline && <button onClick={() => tj("deadline")}>Past the offer deadline</button>}
           </div>
         )}
       </div>

@@ -24,6 +24,7 @@ Open http://localhost:3100.
 ## Getting around
 
 - **‹ ›** in the top bar steps through all 44 screens in order.
+- **Web / Mobile** toggle in the top bar: Mobile shows the same app inside a 390×844 phone frame with the mobile-web layout (hamburger menu, numbered step strip, full-width sticky CTA). The walkthrough, edge cases, stats, clock and reset all drive the phone.
 - **Deep links:** `/lead?screen=A6` (reschedule), `A15` (waitlist), `L3` (payment), `L7` (onboarding) — see `/screens` for every ID.
 - **Edge cases & stats** toggle: searchable list of every case plus cohort metrics (non-bookers, reschedules, no-shows, rounds, offer → accepted, gateway failures, payouts).
 - **Clock menu:** jump simulated time (e.g. 20 h before the interview, past the offer deadline) to test time-based rules.

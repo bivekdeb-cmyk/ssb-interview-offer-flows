@@ -17,9 +17,19 @@ export function WorkShell({
         <div className="menu">
           {headerRight}
           {avatar ? <Avatar src={avatar} /> : <span className="avatar">{user.split(" ").map((x) => x[0]).join("").slice(0, 2)}</span>}
-          {user} <CaretDown size={14} className="muted" />
+          <span className="nav-profile">{user} <CaretDown size={14} className="muted" /></span>
         </div>
       </div>
+      {/* mobile: horizontal section tabs (sidebar is hidden on small screens) */}
+      <nav className="mnav" aria-label={label}>
+        {nav.map((n) => (
+          <button key={n.id} className={active === n.id ? "on" : ""} onClick={() => onNav(n.id)}>
+            {n.icon}
+            {n.label}
+            {n.count !== undefined && n.count !== 0 && <span className="cnt">{n.count}</span>}
+          </button>
+        ))}
+      </nav>
       <div className="ws">
         <aside className="side">
           <div className="lbl">{label}</div>

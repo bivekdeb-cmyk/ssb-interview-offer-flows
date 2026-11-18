@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { ArrowRight, ArrowUpRight, YoutubeLogo, ArrowsClockwise, CalendarCheck, Clock, Copy, DownloadSimple, CalendarPlus, Headset, LockKey, LockSimple, CaretDown, ChatsCircle, Check, ClipboardText, Eye, FileText, FlagBanner, GraduationCap, Phone, Play, Receipt, Sparkle, UploadSimple, VideoCamera, WhatsappLogo, Warning } from "@phosphor-icons/react";
+import { ArrowRight, ArrowUpRight, EnvelopeSimple, List, X, YoutubeLogo, ArrowsClockwise, CalendarCheck, Clock, Copy, DownloadSimple, CalendarPlus, Headset, LockKey, LockSimple, CaretDown, ChatsCircle, Check, ClipboardText, Eye, FileText, FlagBanner, GraduationCap, Phone, Play, Receipt, Sparkle, UploadSimple, VideoCamera, WhatsappLogo, Warning } from "@phosphor-icons/react";
 import { useStore } from "@/lib/store";
 import {
   bookingWindow, book, currentRound, fmt, hoursUntil, slotById, RESCHEDULE_CUTOFF_H, MAX_ROUNDS, reschedule, nextMidnight,
@@ -35,6 +35,7 @@ function screenName(s: State): string {
 
 export default function LeadPage() {
   const { s, update } = useStore();
+  const [menu, setMenu] = useState(false);
   const L = s.lead;
   const offerStage = L.stage === "approved";
   const accepted = s.offer.status === "accepted";
@@ -71,9 +72,44 @@ export default function LeadPage() {
             Talk to {L.counsellor.name.split(" ")[0]}, your counsellor
           </button>
           <span className="nav-sep" />
-          <Avatar src={IMG.lead} /> {L.name} <CaretDown size={14} className="muted" />
+          <span className="nav-profile"><Avatar src={IMG.lead} /> {L.name} <CaretDown size={14} className="muted" /></span>
+          <button className="m-burger" aria-label="Open menu" aria-expanded={menu} onClick={() => setMenu(true)}>
+            <List size={22} />
+          </button>
         </div>
       </div>
+      {/* mobile: horizontal numbered step strip */}
+      <nav className="mstepper" aria-label="Application progress">
+        {steps.map(([t, , st], i) => (
+          <div key={t} className={`ms-step ${st || "todo"}`} aria-current={st === "on" ? "step" : undefined}>
+            <span className="ms-n">{st === "done" ? <Check size={12} weight="bold" /> : i + 1}</span>
+            <span className="ms-t">{t}</span>
+          </div>
+        ))}
+      </nav>
+      {/* mobile: menu sheet */}
+      {menu && (
+        <div className="m-sheet-scrim" onClick={() => setMenu(false)}>
+          <div className="m-sheet" role="dialog" aria-modal aria-label="Menu" onClick={(e) => e.stopPropagation()}>
+            <div className="row between">
+              <span className="row" style={{ gap: 10 }}><Avatar src={IMG.lead} size={40} /><b>{L.name}</b></span>
+              <button className="m-close" aria-label="Close menu" onClick={() => setMenu(false)}><X size={20} /></button>
+            </div>
+            <div className="side-sec" style={{ margin: 0 }}>
+              <span className="lbl">APPLICATION ID</span>
+              <div className="side-appid">
+                <b>{L.id}</b>
+                <button className="copy-btn" aria-label="Copy application ID" onClick={() => copyText(L.id).then((ok) => update((d) => (d.ui.toast = ok ? "Application ID copied" : `Application ID: ${L.id}`)))}>
+                  <Copy size={16} />
+                </button>
+              </div>
+            </div>
+            <button className="m-item" onClick={() => { setMenu(false); update(callback); }}><Headset size={18} /> Talk to {L.counsellor.name.split(" ")[0]}, your counsellor</button>
+            <button className="m-item" onClick={() => { setMenu(false); update((d) => (d.ui.leadTab = "inbox")); }}><EnvelopeSimple size={18} /> Email inbox ({s.emails.length})</button>
+            <div className="m-foot">SSB Admissions Portal · Privacy policy</div>
+          </div>
+        </div>
+      )}
       <div className="ws">
         <aside className="side lead-side">
           <div className="side-sec">
