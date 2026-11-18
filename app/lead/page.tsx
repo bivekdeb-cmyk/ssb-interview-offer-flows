@@ -100,9 +100,8 @@ export default function LeadPage() {
             {steps.map(([t, sub, st, ic]) => (
               <li key={t} className={`tl-step ${st || "todo"}`}>
                 <span className="tl-ic">{st === "done" ? <Check size={16} weight="bold" /> : st === "" ? <LockSimple size={16} /> : ic}</span>
-                <span className="tl-txt">
+                <span className="tl-txt" title={sub}>
                   <b>{t}</b>
-                  <span>{sub}</span>
                 </span>
               </li>
             ))}
