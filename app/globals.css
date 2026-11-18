@@ -409,7 +409,7 @@ button.fnode:hover { border-color: var(--g); box-shadow: 0 2px 10px #1d925b1f; }
 .hero-ic { width: 60px; height: 60px; border-radius: 6px; background: #22a062; display: grid; place-items: center; flex-shrink: 0; }
 .btn.ghost-w { background: none; color: #fff; border-color: transparent; }
 .btn.ghost-w:hover:not(:disabled) { text-decoration: underline; }
-.prep-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(320px, 44%); gap: 24px; align-items: start; }
+.prep-row { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 32px; align-items: start; }
 /* YouTube-style 16:9 player */
 .video { position: relative; width: 100%; aspect-ratio: 16 / 9; border-radius: 10px; border: 0; background-size: cover; background-position: center; background-color: #0f0f0f; overflow: hidden; padding: 0; display: block; }
 .video::before { content: ""; position: absolute; inset: 0; background: #0000004d; }
