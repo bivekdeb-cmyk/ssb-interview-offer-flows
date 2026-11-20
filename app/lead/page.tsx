@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { ArrowRight, ArrowUpRight, EnvelopeSimple, List, X, YoutubeLogo, ArrowsClockwise, CalendarCheck, Clock, Copy, DownloadSimple, CalendarPlus, Headset, LockKey, LockSimple, CaretDown, ChatsCircle, Check, ClipboardText, Eye, FileText, FlagBanner, GraduationCap, Phone, Play, Receipt, Sparkle, UploadSimple, VideoCamera, WhatsappLogo, Warning } from "@phosphor-icons/react";
+import { ArrowLeft, ArrowRight, ArrowUpRight, EnvelopeSimple, List, X, YoutubeLogo, ArrowsClockwise, CalendarCheck, Clock, Copy, DownloadSimple, CalendarPlus, Headset, LockKey, LockSimple, CaretDown, ChatsCircle, Check, ClipboardText, Eye, FileText, FlagBanner, GraduationCap, Phone, Play, Receipt, Sparkle, UploadSimple, VideoCamera, WhatsappLogo, Warning } from "@phosphor-icons/react";
 import { useStore } from "@/lib/store";
 import {
   bookingWindow, book, currentRound, fmt, hoursUntil, slotById, RESCHEDULE_CUTOFF_H, MAX_ROUNDS, reschedule, nextMidnight,
@@ -61,7 +61,6 @@ export default function LeadPage() {
     ["Onboarding", accepted ? (s.offer.onboarding?.submitted ? "Submitted" : "Complete your form") : "Locked", accepted ? (s.offer.onboarding?.submitted ? "done" : "on") : "", <GraduationCap key="e" size={18} />],
   ];
   const doneCount = steps.filter((x) => x[2] === "done").length;
-  const unread = s.emails.length;
   return (
     <div className="frame">
       <div className="appnav">
@@ -149,14 +148,6 @@ export default function LeadPage() {
           </div>
         </aside>
         <div className="content lead-content">
-          <div className="tabs">
-            <button className={s.ui.leadTab === "dashboard" ? "on" : ""} onClick={() => update((d) => (d.ui.leadTab = "dashboard"))}>
-              Dashboard
-            </button>
-            <button className={s.ui.leadTab === "inbox" ? "on" : ""} onClick={() => update((d) => (d.ui.leadTab = "inbox"))}>
-              Email inbox ({unread})
-            </button>
-          </div>
           {s.ui.leadTab === "inbox" ? <Inbox /> : <LeadMain />}
         </div>
       </div>
@@ -932,6 +923,9 @@ function Inbox() {
   const e = s.emails.find((x) => x.id === sel) ?? s.emails[0];
   return (
     <>
+      <button className="linkbtn" style={{ textDecoration: "none" }} onClick={() => update((d) => (d.ui.leadTab = "dashboard"))}>
+        <ArrowLeft size={16} /> Back to dashboard
+      </button>
       <Intro title="Email inbox" sub="Every email is sent at the same moment the dashboard updates (no delta) and points back to the dashboard." />
       <div className="emaillist">
         <div className="lst">
